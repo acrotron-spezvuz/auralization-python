@@ -17,6 +17,12 @@ class nafClient():
         connection.request("POST", "/Auralization", requestPayload, self.defaultHeaders)
         response = connection.getresponse()
         print(response.status, response.reason)
+        if response.status == 200:
+            responseString = response.read().decode('utf-8')
+            jsonObj = json.loads(responseString)
+            data = jsonObj['data']
+            print(data)
+
         
 
 
