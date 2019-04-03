@@ -21,8 +21,20 @@ class nafClient():
             responseString = response.read().decode('utf-8')
             jsonObj = json.loads(responseString)
             data = jsonObj['data']
-            print(data)
+            print(data) 
 
+
+    def auralize_from_sources(self):
+        pass
+
+    def auralize_from_url(self):
+        pass
+
+    def auralize_from_content(self):
+        pass
+
+    def auralize_from_environment(self):
+        pass
         
 
 
