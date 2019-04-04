@@ -6,6 +6,7 @@ import json
 
 class nafClient():
     def __init__(self):
+        # replace value with valid endpoints
         self.__auralizationApiEndpoint = "http://name.domain/api/Auralization"
         self.__defaultHeaders = {"Content-Type":"application/json", "Accept":"application/json" }
         

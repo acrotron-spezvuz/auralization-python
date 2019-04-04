@@ -2,6 +2,7 @@
 # is an exmple of using library methods 
 
 import sys
+# import naf library
 from nafServiceClient import nafClient
 from pathlib import Path
 import json
