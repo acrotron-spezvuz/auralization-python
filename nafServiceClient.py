@@ -40,7 +40,7 @@ class nafClient():
 
     # auralize from url
     def auralize_from_url(self, url):
-        headers = {"Content-Type":"application/json", "Accept":"text/palin" }
+        headers = {"Content-Type":"text/palin", "Accept":"application/json"}
         endpoint = "/AuralizeFromUrl"
         return self.__send_request(endpoint, url, headers)
 
