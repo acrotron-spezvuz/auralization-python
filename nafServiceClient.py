@@ -2,12 +2,15 @@
 
 import http.client
 import urllib.parse
+import ssl
 import json
 
 class nafClient():
     def __init__(self):
         # replace value with valid endpoints
-        self.__auralizationApiEndpoint = "http://name.domain/api/Auralization"
+        self.__auralizationApiHost = "localhost"
+        self.__auralizationApiPort = "44321"
+        self.__auralizationApiRoot = "/api/Auralization"
         self.__defaultHeaders = {"Content-Type":"application/json", "Accept":"application/json" }
         
     # send a http request to the api endpoint
@@ -18,7 +21,7 @@ class nafClient():
         if headers is None:
             headers = self.__defaultHeaders
         # http / https connection
-        connection = http.client.HTTPConnection(self.__auralizationApiEndpoint)        
+        connection = http.client.HTTPSConnection(host=self.__auralizationApiHost, port = self.__auralizationApiPort, context=ssl._create_unverified_context())
         # send data
         connection.request("POST", api_endpoint, payload, self.__defaultHeaders)
         # get a response
@@ -36,25 +39,25 @@ class nafClient():
     # auralization from source 
     def auralize_from_sources(self, data):
         payload = json.dumps(data)
-        endpoint = "/AuralizeFromSources"
+        endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
 
     # auralize from url
     def auralize_from_url(self, url):
         headers = {"Content-Type":"text/palin", "Accept":"application/json"}
-        endpoint = "/AuralizeFromUrl"
+        endpoint = self.__auralizationApiRoot + "/AuralizeFromUrl"
         return self.__send_request(endpoint, url, headers)
 
     # auralize from content
     def auralize_from_content(self, data):
         payload = json.dumps(data)
-        endpoint = "/AuralizeFromContent"
+        endpoint = self.__auralizationApiRoot + "/AuralizeFromContent"
         return self.__send_request(endpoint, payload)
 
     # auralize from environmet
     def auralize_from_environment(self, data):
         payload = json.dumps(data)
-        endpoint = "/AuralizeFromEnvironment"
+        endpoint = self.__auralizationApiRoot + "/AuralizeFromEnvironment"
         return self.__send_request(endpoint, payload)
 
 
