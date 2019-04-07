@@ -33,6 +33,12 @@ class nafClient():
             jsonObj = json.loads(responseString)
             data = jsonObj['data']
             return data 
+        if response.status == 400:
+            responseString = response.read().decode('utf-8')
+            jsonObj = json.loads(responseString)
+            print(responseString)
+            #data = jsonObj['data']
+            return None 
         # when nothing to return
         return None
 
@@ -52,12 +58,35 @@ class nafClient():
     def auralize_from_content(self, data):
         payload = json.dumps(data)
         endpoint = self.__auralizationApiRoot + "/AuralizeFromContent"
+        
+        print(endpoint)
+        print(payload)
+        
         return self.__send_request(endpoint, payload)
+
+    # auralize from content
+    # workaround: to utilize AuralizeFromSources
+    # until AuralizeFromContent is fixed.
+    def auralize_from_content2(self, content):
+        # read all data
+        data = "[{}]"
+
+        # parse 
+        data_obj = json.loads(data)
+        data_obj[0]['content'] = content
+            
+        return self.auralize_from_sources(data_obj)
 
     # auralize from environmet
     def auralize_from_environment(self, data):
         payload = json.dumps(data)
         endpoint = self.__auralizationApiRoot + "/AuralizeFromEnvironment"
+        return self.__send_request(endpoint, payload)
+
+    # Foo
+    def foo(self, data):
+        payload = json.dumps(data)
+        endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
 
 
