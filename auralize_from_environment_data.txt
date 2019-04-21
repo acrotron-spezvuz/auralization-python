@@ -1,0 +1,55 @@
+// Atmospec default disable_delay=1
+Atmospec default
+Terrain SimpleGround
+// Terrain none
+
+sourceframes aircraft
+sourceframe aircraft
+	sources src
+	traj traj1 vec6 0.0
+end aircraft
+
+source src
+	components rand tone1 tone2
+	traj zerotraj vec6 0
+end
+
+Component rand
+    cmptype base
+	synthtype random
+	scale 20
+End
+
+Component tone1
+   cmptype base
+   synthtype testtone
+   syntharg freq=1000
+   scale 10
+End
+
+Component tone2
+   cmptype base
+   synthtype testtone
+   syntharg freq=2000
+   scale 2.5
+End
+
+receivers rec1
+receiver rec1
+   sinks s1
+   traj listraj vec6 0
+end
+sink s1
+	traj zerotraj vec6 0
+end
+
+// All the trajectories: 1 file and 2 inlined
+traj traj1
+	file traj1.csv
+end
+traj listraj
+   StationaryVec6 0 0 5 0 0 0
+end
+traj zerotraj
+   StationaryVec6 0 0 0 0 0 0
+end
