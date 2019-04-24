@@ -23,7 +23,7 @@ if __name__ == "__main__":
         raise Exception('path to file required')
 
     # parse environment data
-    environment_data = environment_parser.parseFromFile(path_to_data)
+    environment_data = environment_parser.parse_from_path(path_to_data)
     #data_obj = json.loads(file_data)
 
     # send

@@ -4,6 +4,7 @@ import http.client
 import urllib.parse
 import ssl
 import json
+from collections import OrderedDict
 
 class nafClient():
     def __init__(self):
@@ -79,7 +80,7 @@ class nafClient():
 
     # auralize from environmet
     def auralize_from_environment(self, data):
-        payload = json.dumps(data)
+        payload = json.dumps(data, default=jsonDefault)
         endpoint = self.__auralizationApiRoot + "/AuralizeFromEnvironment"
         return self.__send_request(endpoint, payload)
 
@@ -88,5 +89,11 @@ class nafClient():
         payload = json.dumps(data)
         endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
+
+# python can't convert objects to json
+# but it can convert dictionaries to json 
+def jsonDefault(OrderedDict):
+    # simple and fast json-friendly collection
+    return OrderedDict.__dict__
 
 
