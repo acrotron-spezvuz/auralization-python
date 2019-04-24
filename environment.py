@@ -31,7 +31,7 @@ class Component():
         self.gain = 0
         self.cmp_type = CmpType.BASE 
         self.synth_type = SynthType.TESTTONE
-        self.synth_args = []
+        self.synth_arg = []
 
 class Reciever():
     def __init__(self):
