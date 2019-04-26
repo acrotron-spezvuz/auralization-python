@@ -4,7 +4,7 @@
 import sys
 # import naf library
 from nafServiceClient import nafClient
-import environment_parser
+from environment_parser import EnvironmentParser
 from pathlib import Path
 import json
 
@@ -23,7 +23,8 @@ if __name__ == "__main__":
         raise Exception('path to file required')
 
     # parse environment data
-    environment_data = environment_parser.parse_from_path(path_to_data)
+    parser = EnvironmentParser()
+    environment_data = parser.parse_from_path(path_to_data)
     #data_obj = json.loads(file_data)
 
     # send
