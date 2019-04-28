@@ -9,7 +9,7 @@ class nafClient():
     def __init__(self):
         # replace value with valid endpoints
         self.__auralizationApiHost = "localhost"
-        self.__auralizationApiPort = "44321"
+        self.__auralizationApiPort = "443"
         self.__auralizationApiRoot = "/api/Auralization"
         self.__defaultHeaders = {"Content-Type":"application/json", "Accept":"application/json" }
         
