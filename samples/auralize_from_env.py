@@ -25,14 +25,11 @@ def auralize_from_env_example():
     sf = SourceFrame("aircraft", sources=[src], traj=traj1)
 
     e = Environment(source_frames=[sf], receivers=[r1])
-    #print(e.toString())
-
-    # read all data
-    content = e.toString()
+    # print(e.toString())
 
     # send
     naf_client = nafClient()
-    auralization_result = naf_client.auralize_from_content2(content)
+    auralization_result = naf_client.auralize_from_environment(e)
 
     print(auralization_result)
 
