@@ -3,11 +3,10 @@
 
 import sys
 # import naf library
-from nafServiceClient import nafClient
+from client.nafServiceClient import nafClient
 from pathlib import Path
-import json
 
-if __name__ == "__main__":
+def auralize_from_content():
     # parameter should be a valid path to the file with prepared data
     # check
     # first one is current script filename
@@ -33,3 +32,7 @@ if __name__ == "__main__":
     auralization_result = naf_client.auralize_from_content2(content)
 
     print(auralization_result)
+
+
+if __name__ == "__main__":
+    auralize_from_content()

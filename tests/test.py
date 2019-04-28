@@ -3,7 +3,7 @@
 
 import sys
 # import naf library
-from nafServiceClient import nafClient
+from client.nafServiceClient import nafClient
 from pathlib import Path
 import json
 
@@ -29,8 +29,15 @@ if __name__ == "__main__":
     # parse 
     data_obj = json.loads(file_data)
 
+    # read all data
+    content = ""
+    with Path('environ.txt').open() as f:
+        content = f.read()
+    data_obj[0]['content'] = content
+    #print(data_obj[0]['content'])
+    
     # send
     naf_client = nafClient()
-    auralization_result = naf_client.auralize_from_sources(data_obj)
+    auralization_result = naf_client.foo(data_obj)
 
     print(auralization_result)

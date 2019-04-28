@@ -1,6 +1,5 @@
 # python 3
-from synthtype import SynthType
-from cmptype import CmpType
+from model.enums import SynthType, CmpType
 
 class Trajectory():
     def __init__(self, id: str, x=0.0, y=0.0, z=0.0, heading=0.0, pitch=0.0, roll=0.0, file=None):
