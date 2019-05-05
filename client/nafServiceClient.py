@@ -4,7 +4,8 @@ import http.client
 import urllib.parse
 import ssl
 import json
-from collections import OrderedDict
+from model.environment import Environment
+
 
 class nafClient():
     def __init__(self):
@@ -79,10 +80,13 @@ class nafClient():
         return self.auralize_from_sources(data_obj)
 
     # auralize from environmet
-    def auralize_from_environment(self, data):
-        payload = json.dumps(data, default=jsonDefault)
-        endpoint = self.__auralizationApiRoot + "/AuralizeFromEnvironment"
-        return self.__send_request(endpoint, payload)
+    def auralize_from_environment(self, environment: Environment):
+        # read all data
+        content = environment.toString()
+
+        # send
+        return self.auralize_from_content2(content)
+
 
     # Foo
     def foo(self, data):

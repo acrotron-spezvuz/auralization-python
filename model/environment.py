@@ -1,6 +1,5 @@
 # python 3
-from synthtype import SynthType
-from cmptype import CmpType
+from model.enums import SynthType, CmpType
 
 
 class Trajectory():
@@ -96,13 +95,14 @@ end
 
 
 class Component():
-    def __init__(self, id: str, scale=0.0, gain=0.0, cmp_type=CmpType.base, synth_type=SynthType.testtone, synth_arg={}):
+    def __init__(self, id: str, scale=0.0, gain=0.0, cmp_type=CmpType.base, synth_type=SynthType.testtone, key_value_pairs={}, wav_file=None):
         self.id = id
         self.scale = scale
         self.gain = gain # not used for now
         self.cmp_type = cmp_type
         self.synth_type = synth_type
-        self.synth_arg = synth_arg
+        self.key_value_pairs = key_value_pairs
+        self.wav_file = wav_file
 
     def toString(self):
         tpl = """Component %s
@@ -112,7 +112,10 @@ class Component():
    syntharg %s
 end
 """
-        synth_args_str = " ".join("{}={}".format(k, v) for k, v in self.synth_arg.items())
+        if self.wav_file is None:
+            synth_args_str = " ".join("{}={}".format(k, v) for k, v in self.key_value_pairs.items())
+        else:
+            synth_args_str = self.wav_file
         res = tpl % (self.id, self.scale, self.cmp_type.value, self.synth_type.value, synth_args_str)
         return res
 
@@ -167,8 +170,8 @@ if __name__ == "__main__":
     r1 = Receiver("rec1", sinks=[s1, s2], seconds_offset=30.33, traj=t3)
     r2 = Receiver("r2", sinks=[s1, s2], seconds_offset=0.55, traj=t3)
 
-    c1 = Component("c1", scale=2.5, synth_type=SynthType.testtone, synth_arg={'freq': 2000})
-    c2 = Component("c2", scale=15.4, synth_type=SynthType.wave, synth_arg={'freq': 1000})
+    c1 = Component("c1", scale=2.5, synth_type=SynthType.testtone, key_value_pairs={'freq': 2000})
+    c2 = Component("c2", scale=15.4, synth_type=SynthType.wave, wav_file="sample.wav")
 
     src = Source("src", seconds_offset=10, traj=t1, components=[c1, c2])
 
