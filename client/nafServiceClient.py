@@ -6,6 +6,7 @@ import ssl
 import json
 from model.environment import Environment
 
+
 class nafClient():
     def __init__(self):
         # replace value with valid endpoints
@@ -92,5 +93,11 @@ class nafClient():
         payload = json.dumps(data)
         endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
+
+# python can't convert objects to json
+# but it can convert dictionaries to json 
+def jsonDefault(OrderedDict):
+    # simple and fast json-friendly collection
+    return OrderedDict.__dict__
 
 

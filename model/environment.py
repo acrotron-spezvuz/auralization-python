@@ -1,6 +1,7 @@
 # python 3
 from model.enums import SynthType, CmpType
 
+
 class Trajectory():
     def __init__(self, id: str, x=0.0, y=0.0, z=0.0, heading=0.0, pitch=0.0, roll=0.0, file=None):
         self.id = id
@@ -178,4 +179,3 @@ if __name__ == "__main__":
 
     e = Environment(source_frames=[sf], receivers=[r1, r2])
     print(e.toString())
-
