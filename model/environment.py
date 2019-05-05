@@ -31,6 +31,33 @@ class Environment():
     def __init__(self, source_frames=[], receivers=[]):
         self.source_frames = source_frames
         self.receivers = receivers
+        self.files = self.extract_files(source_frames, receivers)
+
+
+    def extract_files(self, source_frames, receivers):
+        files = []
+        for sf in source_frames:
+            if sf.traj is not None and sf.traj.file is not None:
+                files.append(sf.traj.file)
+
+            for s in sf.sources:
+                if s.traj is not None and s.traj.file is not None:
+                    files.append(s.traj.file)
+
+                for c in s.components:
+                    if c.wav_file is not None:
+                        files.append(c.wav_file)
+
+        for r in receivers:
+            if r.traj is not None and r.traj.file is not None:
+                files.append(r.traj.file)
+
+            for s in r.sinks:
+                if s.traj is not None and s.traj.file is not None:
+                    files.append(s.traj.file)
+
+        return set(files)
+
 
     def toString(self):
         tpl = """Atmospec default
@@ -179,3 +206,4 @@ if __name__ == "__main__":
 
     e = Environment(source_frames=[sf], receivers=[r1, r2])
     print(e.toString())
+    print(e.files)
