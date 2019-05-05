@@ -1,7 +1,9 @@
 # python 3
 
 import http.client
-import urllib.parse
+import requests
+import sys
+import os
 import ssl
 import json
 from model.environment import Environment
@@ -81,6 +83,11 @@ class nafClient():
 
     # auralize from environmet
     def auralize_from_environment(self, environment: Environment):
+        # upload files first
+        print(environment.files)
+        for f in environment.files:
+            self.upload_files(f)
+
         # read all data
         content = environment.toString()
 
@@ -94,6 +101,26 @@ class nafClient():
         endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
 
+
+    def upload_files(self, path):
+        url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
+              self.__auralizationApiRoot + "/uploadfile"
+
+        # Suppress ssl verification
+        if getattr(ssl, '_create_unverified_context', None):
+            ssl._create_default_https_context = ssl._create_unverified_context
+
+        print("File: " + path)
+        # filename = os.path.basename(path)
+        # if path == filename:
+        #     print("Please specify the full file path")
+        #     sys.exit()
+
+        file = open(path, 'rb')
+        response = requests.post(url, files={'file': file}, verify=False)
+        return response
+
+
 # python can't convert objects to json
 # but it can convert dictionaries to json 
 def jsonDefault(OrderedDict):
@@ -101,3 +128,9 @@ def jsonDefault(OrderedDict):
     return OrderedDict.__dict__
 
 
+if __name__ == "__main__":
+    file = "..\\tests\\test.csv"
+    print("file: " + file)
+    client = nafClient()
+    response = client.upload_files([file])
+    print(response)
