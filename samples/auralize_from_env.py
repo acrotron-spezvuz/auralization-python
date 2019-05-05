@@ -15,12 +15,13 @@ def auralize_from_env_example():
 
     r1 = Receiver("rec1", sinks=[s1], traj=listraj)
 
-    comp_rand = Component("rand", scale=20, synth_type=SynthType.random)
-    comp_tone1 = Component("tone1", scale=10, synth_type=SynthType.testtone, key_value_pairs={'freq': 1000})
-    comp_tone2 = Component("tone2", scale=2.5, synth_type=SynthType.testtone, key_value_pairs={'freq': 2000})
-    # comp_tone2 = Component("tone2", scale=2.5, synth_type=SynthType.wave, wav_file="sample.wav")
+    #comp_rand = Component("rand", scale=20, synth_type=SynthType.random)
+    #comp_tone1 = Component("tone1", scale=10, synth_type=SynthType.testtone, key_value_pairs={'freq': 1000})
+    #comp_tone2 = Component("tone2", scale=2.5, synth_type=SynthType.testtone, key_value_pairs={'freq': 2000})
+    comp_wav = Component("wav", scale=100, synth_type=SynthType.wave, wav_file="new.wav")
 
-    src = Source("src", traj=zerotraj, components=[comp_rand, comp_tone1, comp_tone2])
+    #src = Source("src", traj=zerotraj, components=[comp_rand, comp_tone1, comp_tone2])
+    src = Source("src", traj=zerotraj, components=[comp_wav])
 
     sf = SourceFrame("aircraft", sources=[src], traj=traj1)
 
