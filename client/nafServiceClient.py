@@ -79,7 +79,9 @@ class nafClient():
         data_obj = json.loads(data)
         data_obj[0]['content'] = content
             
-        return self.auralize_from_sources(data_obj)
+        resp = self.auralize_from_sources(data_obj)
+        resp = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + resp[2:]
+        return resp;
 
     # auralize from environmet
     def auralize_from_environment(self, environment: Environment):
