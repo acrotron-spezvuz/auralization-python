@@ -6,6 +6,7 @@ import sys
 import os
 import ssl
 import json
+from pathlib import Path
 from model.environment import Environment
 
 
@@ -72,6 +73,10 @@ class nafClient():
     # workaround: to utilize AuralizeFromSources
     # until AuralizeFromContent is fixed.
     def auralize_from_content2(self, content):
+        # upload associated files first
+        associated_files = self.extract_files(content)
+        self.upload_files(associated_files)
+
         # read all data
         data = "[{}]"
 
@@ -85,11 +90,6 @@ class nafClient():
 
     # auralize from environmet
     def auralize_from_environment(self, environment: Environment):
-        # upload files first
-        print(environment.files)
-        for f in environment.files:
-            self.upload_files(f)
-
         # read all data
         content = environment.toString()
 
@@ -104,7 +104,13 @@ class nafClient():
         return self.__send_request(endpoint, payload)
 
 
-    def upload_files(self, path):
+    def upload_files(self, files):
+        print(files)
+        for f in files:
+            self.upload_file(f)
+
+
+    def upload_file(self, path):
         url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
               self.__auralizationApiRoot + "/uploadfile"
 
@@ -122,6 +128,17 @@ class nafClient():
         response = requests.post(url, files={'file': file}, verify=False)
         return response
 
+    def extract_files(self, content: str):
+        files = []
+
+        tokens = content.split()
+        for w in tokens:
+            ext = w.lower()[-4:]
+            if  ext in [".wav", ".csv"]:
+                files.append(w)
+
+        return files
+
 
 # python can't convert objects to json
 # but it can convert dictionaries to json 
@@ -131,8 +148,22 @@ def jsonDefault(OrderedDict):
 
 
 if __name__ == "__main__":
-    file = "..\\tests\\test.csv"
-    print("file: " + file)
-    client = nafClient()
-    response = client.upload_files([file])
-    print(response)
+
+    if 0:
+        file = "..\\tests\\test.csv"
+        print("file: " + file)
+        client = nafClient()
+        response = client.upload_files([file])
+        print(response)
+
+    if 1:
+        path_to_data = Path("../tests/environ_wav.txt")
+
+        # read all data
+        with Path(path_to_data).open() as f:
+            content = f.read()
+
+        client = nafClient()
+        files = client.extract_files(content)
+        print(files)
+
