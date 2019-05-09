@@ -120,6 +120,16 @@ class nafClient():
         response = requests.post(url, files={'file': file}, verify=False)
         return response
 
+    # auralize from content and file
+    def auralize_from_content_and_file(self, data, filename):
+        url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
+              self.__auralizationApiRoot + "/AuralizeFromContentAndFile"
+
+        file = open(filename, 'rb')
+        payload = {"content": data, "file": file}
+        response = requests.post(url, files={'file': file}, data={"content": data}, verify=False)
+        return response
+
 
 # python can't convert objects to json
 # but it can convert dictionaries to json 
@@ -132,5 +142,6 @@ if __name__ == "__main__":
     file = "..\\tests\\test.csv"
     print("file: " + file)
     client = nafClient()
-    response = client.upload_files([file])
+    # response = client.upload_files([file])
+    response = client.auralize_from_content_and_file("test string", file)
     print(response)
