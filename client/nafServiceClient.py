@@ -13,6 +13,7 @@ from model.environment import Environment
 class nafClient():
     def __init__(self):
         # replace value with valid endpoints
+        #self.__auralizationApiHost = "auralize.acrotron.com"
         self.__auralizationApiHost = "localhost"
         self.__auralizationApiPort = "443"
         self.__auralizationApiRoot = "/api/Auralization"
