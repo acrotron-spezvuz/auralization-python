@@ -13,8 +13,8 @@ from model.environment import Environment
 class nafClient():
     def __init__(self):
         # replace value with valid endpoints
-        #self.__auralizationApiHost = "auralize.acrotron.com"
-        self.__auralizationApiHost = "localhost"
+        self.__auralizationApiHost = "auralize.acrotron.com"
+        #self.__auralizationApiHost = "localhost"
         self.__auralizationApiPort = "443"
         self.__auralizationApiRoot = "/api/Auralization"
         self.__defaultHeaders = {"Content-Type":"application/json", "Accept":"application/json" }
@@ -60,6 +60,37 @@ class nafClient():
         endpoint = self.__auralizationApiRoot + "/AuralizeFromUrl"
         return self.__send_request(endpoint, url, headers)
 
+    # auralize from content and file
+    def auralize_from_content_and_files(self, data, filenames):
+        print(filenames)
+        self.upload_files(filenames)
+
+        url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
+              self.__auralizationApiRoot + "/AuralizeFromContentAndFiles"
+
+        def convert(name):
+            return ("files", (os.path.basename(name), open(name, 'rb')))
+
+        response = requests.post(url, files=list(map(convert, filenames)), data=data, verify=False)
+
+        #wav = json.dumps(response.content)
+        wav = str(response.content, 'utf-8')
+        resp = json.loads(wav)["data"]
+        return resp
+
+    # auralize from content
+    # workaround: to utilize AuralizeFromSources
+    # until AuralizeFromContent is fixed.
+    def auralize_from_content3(self, content):
+        # upload associated files first
+        associated_files = self.extract_files(content)
+        print(associated_files)
+        #self.upload_files(associated_files)
+
+        resp = self.auralize_from_content_and_files({"content":content, "wavLength": "11.0"}, associated_files)
+        resp = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + resp[2:]
+        return resp;
+
     # auralize from content
     def auralize_from_content(self, data):
         payload = json.dumps(data)
@@ -95,7 +126,7 @@ class nafClient():
         content = environment.toString()
 
         # send
-        return self.auralize_from_content2(content)
+        return self.auralize_from_content3(content)
 
 
     # Foo
@@ -140,17 +171,6 @@ class nafClient():
 
         return files
 
-    # auralize from content and file
-    def auralize_from_content_and_file(self, data, filenames):
-        url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
-              self.__auralizationApiRoot + "/AuralizeFromContentAndFiles"
-
-        def convert(name):
-            return ("files", (os.path.basename(name), open(name, 'rb')))
-
-        response = requests.post(url, files=list(map(convert, filenames)), data=data, verify=False)
-        return response
-
 
 # python can't convert objects to json
 # but it can convert dictionaries to json 
@@ -159,30 +179,39 @@ def jsonDefault(OrderedDict):
     return OrderedDict.__dict__
 
 
-if __name__ == "__main__":
-    if 0:
+def driver():
+    flow = 2
+    if flow == 1:
         files = ["..\\tests\\test.csv", "..\\tests\\tset2.csv"]
         print("files: " + str(files))
         client = nafClient()
         # response = client.upload_files([file])
-        response = client.auralize_from_content_and_file({"content": "test string", "wavLength": "2"}, files)
+        response = client.auralize_from_content_and_files({"content": "test string", "wavLength": "2"}, files)
         print(response)
 
-    if 1:
+    if flow == 2:
         path_to_data = Path("../tests/environ_wav.txt")
 
         # read all data
         with Path(path_to_data).open() as f:
             content = f.read()
 
-        client = nafClient()
         files = client.extract_files(content)
         print(files)
-    if 2:
+
+        client = nafClient()
+
+        response = client.auralize_from_content_and_files({"content": content, "wavLength": "50"}, files)
+        print(response)
+
+    if flow == 3:
         files = ["..\\tests\\test.csv", "..\\tests\\tset2.csv"]
         print("files: " + str(files))
         client = nafClient()
         # response = client.upload_files([file])
-        response = client.auralize_from_content_and_file({"content":"test string", "wavLength": "2"}, files)
+        response = client.auralize_from_content_and_files({"content": "test string", "wavLength": "2"}, files)
         print(response)
 
+
+if __name__ == "__main__":
+    driver()
