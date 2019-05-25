@@ -29,7 +29,7 @@ def auralize_from_content():
         
     # send
     naf_client = nafClient()
-    auralization_result = naf_client.auralize_from_content3(content)
+    auralization_result = naf_client.auralize_from_content3(content, 40.0)
 
     print(auralization_result)
 

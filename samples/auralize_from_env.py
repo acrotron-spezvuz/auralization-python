@@ -30,7 +30,7 @@ def auralize_from_env_example():
 
     # send
     naf_client = nafClient()
-    auralization_result = naf_client.auralize_from_environment(e)
+    auralization_result = naf_client.auralize_from_environment(e, 35.0)
 
     print(auralization_result)
 

@@ -75,19 +75,20 @@ class nafClient():
 
         #wav = json.dumps(response.content)
         wav = str(response.content, 'utf-8')
+
         resp = json.loads(wav)["data"]
         return resp
 
     # auralize from content
     # workaround: to utilize AuralizeFromSources
     # until AuralizeFromContent is fixed.
-    def auralize_from_content3(self, content):
+    def auralize_from_content3(self, content, wav_len: float):
         # upload associated files first
         associated_files = self.extract_files(content)
         print(associated_files)
         #self.upload_files(associated_files)
 
-        resp = self.auralize_from_content_and_files({"content":content, "wavLength": "11.0"}, associated_files)
+        resp = self.auralize_from_content_and_files({"content":content, "wavLength": wav_len }, associated_files)
         resp = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + resp[2:]
         return resp;
 
@@ -121,12 +122,12 @@ class nafClient():
         return resp;
 
     # auralize from environmet
-    def auralize_from_environment(self, environment: Environment):
+    def auralize_from_environment(self, environment: Environment, wav_len: float):
         # read all data
         content = environment.toString()
 
         # send
-        return self.auralize_from_content3(content)
+        return self.auralize_from_content3(content, wav_len)
 
 
     # Foo
