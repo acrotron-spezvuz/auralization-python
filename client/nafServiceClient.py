@@ -160,13 +160,12 @@ def jsonDefault(OrderedDict):
 
 
 if __name__ == "__main__":
-
-
     if 0:
-        file = "..\\tests\\test.csv"
-        print("file: " + file)
+        files = ["..\\tests\\test.csv", "..\\tests\\tset2.csv"]
+        print("files: " + str(files))
         client = nafClient()
-        response = client.upload_files([file])
+        # response = client.upload_files([file])
+        response = client.auralize_from_content_and_file({"content": "test string", "wavLength": "2"}, files)
         print(response)
 
     if 1:
@@ -179,7 +178,6 @@ if __name__ == "__main__":
         client = nafClient()
         files = client.extract_files(content)
         print(files)
-
     if 2:
         files = ["..\\tests\\test.csv", "..\\tests\\tset2.csv"]
         print("files: " + str(files))
