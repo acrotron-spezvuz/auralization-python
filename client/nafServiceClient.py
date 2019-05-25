@@ -63,7 +63,7 @@ class nafClient():
     # auralize from content and file
     def auralize_from_content_and_files(self, data, filenames):
         print(filenames)
-        self.upload_files(filenames)
+        #self.upload_files(filenames)
 
         url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
               self.__auralizationApiRoot + "/AuralizeFromContentAndFiles"
