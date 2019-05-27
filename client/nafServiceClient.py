@@ -6,6 +6,7 @@ import sys
 import os
 import ssl
 import json
+import re
 from pathlib import Path
 from model.environment import Environment
 
@@ -71,11 +72,13 @@ class nafClient():
         def convert(name):
             return ("files", (os.path.basename(name), open(name, 'rb')))
 
+        print("URL: " + url)
         response = requests.post(url, files=list(map(convert, filenames)), data=data, verify=False)
 
         #wav = json.dumps(response.content)
         wav = str(response.content, 'utf-8')
-
+        print(wav)
+        print("----------------------------")
         resp = json.loads(wav)["data"]
         return resp
 
@@ -167,8 +170,14 @@ class nafClient():
         tokens = content.split()
         for w in tokens:
             ext = w.lower()[-4:]
-            if  ext in [".wav", ".csv"]:
-                files.append(w)
+            if  ext in [".wav", ".csv", ".nc4", ".txt"]:
+                f = re.split('=', w)[-1].lower()
+                files.append(f)
+
+            ext = w.lower()[-3:]
+            if  ext in [".nc"]:
+                f = re.split('=', w)[-1].lower()
+                files.append(f)
 
         return files
 

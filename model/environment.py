@@ -68,6 +68,14 @@ sourceframes %s
 
 receivers %s
 %s
+
+StartTime 0
+EndTime 50
+OutputRoot environ_api
+Postprocessors norm
+Postprocessor norm
+  type NormPostPlugin
+end
 """
         source_frame_ids = " ".join([sf.id for sf in self.source_frames])
         receiver_ids = " ".join([r.id for r in self.receivers])
