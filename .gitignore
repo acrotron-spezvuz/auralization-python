@@ -124,7 +124,7 @@ dmypy.json
 .pyre/
 
 # NAF distribution
-NAF-and-NAF-APL-distribution
+NAF-and-NAF-APL-distribution/
 
 # PyCharm
 .idea/
