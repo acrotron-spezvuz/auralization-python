@@ -1,21 +1,25 @@
 # python 3
-# is an exmple of using library methods 
+# is an example of using library methods
 
 import sys
 # import naf library
 from client.nafServiceClient import nafClient
 from pathlib import Path
 
-def auralize_from_content():
+
+def auralize_from_content(file=None):
     # parameter should be a valid path to the file with prepared data
     # check
     # first one is current script filename
     # second one should be a file name 
     if len(sys.argv) < 2:
-        print('Path to environment data is required as an argument.')
-        raise Exception("Usage: python auralize_from_content.py <file_name>")
-
-    path_to_data = Path(sys.argv[1])
+        if file is None:
+            print('Path to environment data is required as an argument.')
+            raise Exception("Usage: python auralize_from_content.py <file_name>")
+        else:
+            path_to_data = Path(file)
+    else:
+        path_to_data = Path(sys.argv[1])
 
     # if path not exist or it is not a file
     if path_to_data.exists() is False or path_to_data.is_file() is False:

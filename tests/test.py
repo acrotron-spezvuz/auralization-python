@@ -1,5 +1,5 @@
 # python 3
-# is an exmple of using library methods 
+# is an example of using library methods
 
 import sys
 # import naf library
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     with Path('environ.txt').open() as f:
         content = f.read()
     data_obj[0]['content'] = content
-    #print(data_obj[0]['content'])
+    # print(data_obj[0]['content'])
     
     # send
     naf_client = nafClient()

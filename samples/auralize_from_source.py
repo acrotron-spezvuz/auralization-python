@@ -1,5 +1,5 @@
 # python 3
-# is an exmple of using library methods 
+# is an example of using library methods
 
 import sys
 # import naf library

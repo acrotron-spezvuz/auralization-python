@@ -128,3 +128,6 @@ NAF-and-NAF-APL-distribution
 
 # PyCharm
 .idea/
+
+# Examples
+examples/
