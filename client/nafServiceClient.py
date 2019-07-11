@@ -1,23 +1,21 @@
-# python 3
-
 import http.client
 import requests
-import sys
 import os
 import ssl
 import json
 import re
 from pathlib import Path
 from model.environment import Environment
-
+from dotenv import load_dotenv
 
 class nafClient():
     def __init__(self):
+        load_dotenv(verbose=True)
+
         # replace value with valid endpoints
-        self.__auralizationApiHost = "auralize.acrotron.com"
-        #self.__auralizationApiHost = "localhost"
-        self.__auralizationApiPort = "443"
-        self.__auralizationApiRoot = "/api/Auralization"
+        self.__auralizationApiHost = os.getenv("API_HOST")
+        self.__auralizationApiPort = os.getenv("API_PORT")
+        self.__auralizationApiRoot = os.getenv("API_ROOT")
         self.__defaultHeaders = {"Content-Type":"application/json", "Accept":"application/json" }
         
     # send a http request to the api endpoint
@@ -139,12 +137,10 @@ class nafClient():
         endpoint = self.__auralizationApiRoot + "/AuralizeFromSources"
         return self.__send_request(endpoint, payload)
 
-
     def upload_files(self, files):
         print(files)
         for f in files:
             self.upload_file(f)
-
 
     def upload_file(self, path):
         url = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + \
