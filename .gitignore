@@ -131,3 +131,6 @@ NAF-and-NAF-APL-distribution/
 
 # Examples
 examples/
+
+# Visual Studio Code workspace environment
+.vscode
