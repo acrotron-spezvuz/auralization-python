@@ -71,6 +71,7 @@ class nafClient():
             return ("files", (os.path.basename(name), open(name, 'rb')))
 
         print("URL: " + url)
+        print("RESPONSE:")
         response = requests.post(url, files=list(map(convert, filenames)), data=data, verify=False)
 
         #wav = json.dumps(response.content)
@@ -89,9 +90,10 @@ class nafClient():
         print(associated_files)
         #self.upload_files(associated_files)
 
-        resp = self.auralize_from_content_and_files({"content":content, "wavLength": wav_len }, associated_files)
-        resp = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + resp[2:]
-        return resp;
+        resp = self.auralize_from_content_and_files({"content": content, "wavLength": wav_len}, associated_files)
+
+        resp = "https://" + self.__auralizationApiHost + ":" + self.__auralizationApiPort + "/" + resp
+        return resp
 
     # auralize from content
     def auralize_from_content(self, data):

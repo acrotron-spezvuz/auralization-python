@@ -1,8 +1,4 @@
-# python 3
-# is an example of using library methods
-
 import sys
-# import naf library
 from client.nafServiceClient import nafClient
 from pathlib import Path
 
@@ -35,6 +31,7 @@ def auralize_from_content(file=None):
     naf_client = nafClient()
     auralization_result = naf_client.auralize_from_content3(content, 40.0)
 
+    print("DOWNLOAD URL:")
     print(auralization_result)
 
 
