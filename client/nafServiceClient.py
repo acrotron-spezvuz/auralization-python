@@ -74,6 +74,10 @@ class nafClient():
         print("RESPONSE:")
         response = requests.post(url, files=list(map(convert, filenames)), data=data, verify=False)
 
+        if response.status_code == 500:
+            print("!!! ERROR !!!: " + response.reason)
+            return ''
+
         #wav = json.dumps(response.content)
         wav = str(response.content, 'utf-8')
         print(wav)
